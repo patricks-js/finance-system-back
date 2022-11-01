@@ -10,6 +10,6 @@ export const CategoryController = {
       data: { type, title, expense }
     });
 
-    res.status(201).json(category);
+    return res.status(201).json(category);
   }
 };

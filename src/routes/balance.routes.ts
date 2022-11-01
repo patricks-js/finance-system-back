@@ -4,4 +4,4 @@ import { BalanceController } from "@controllers/BalanceController";
 
 export const balanceRoutes = Router();
 
-balanceRoutes.get("/", BalanceController.index);
+balanceRoutes.get("/register", BalanceController.register);

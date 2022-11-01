@@ -4,4 +4,4 @@ import { CategoryController } from "@controllers/CategoryController";
 
 export const categoryRoutes = Router();
 
-categoryRoutes.post("/register", CategoryController.create);
+categoryRoutes.post("/create", CategoryController.create);
