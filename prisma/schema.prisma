@@ -6,3 +6,46 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Balance {
+  id              String            @id @default(uuid())
+  date            DateTime
+  title           String
+  value           Int
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @updatedAt
+  BalanceCategory BalanceCategory[]
+
+  @@map("balance")
+}
+
+model Category {
+  id              String            @id @default(uuid())
+  type            String
+  title           String
+  expense         Boolean
+  BalanceCategory BalanceCategory[]
+
+  @@map("category")
+}
+
+model BalanceCategory {
+  id          String   @id @default(uuid())
+  id_balance  String
+  balance     Balance  @relation(fields: [id_balance], references: [id])
+  id_category String
+  category    Category @relation(fields: [id_category], references: [id])
+
+  @@map("balance_category")
+}

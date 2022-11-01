@@ -1,8 +1,14 @@
 import { AppError } from "@utils/AppError";
 
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
-export async function CatchError(error: Error, req: Request, res: Response) {
+export function catchErrors(
+  error: Error,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next: NextFunction
+) {
   if (error instanceof AppError) {
     return res.status(error.status).json({
       status: "Error",
