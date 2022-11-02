@@ -6,8 +6,17 @@ import { prismaClient } from "src/database/connection";
 import { Request, Response } from "express";
 
 export const UserController = {
-  async index(req: Request, res: Response) {
-    const user = await prismaClient.user.findMany();
+  async findProfile(req: Request, res: Response) {
+    const { id } = req.params;
+    const user = await prismaClient.user.findUnique({
+      where: {
+        id
+      }
+    });
+
+    if (!user) {
+      throw new AppError("User not found!");
+    }
 
     return res.json(user);
   },
@@ -15,9 +24,11 @@ export const UserController = {
   async create(req: Request, res: Response) {
     const { name, email, password }: User = req.body;
 
-    const users = await prismaClient.user.findMany();
-
-    const userEmailExist = users.some(user => user.email === email);
+    const userEmailExist = await prismaClient.user.findUnique({
+      where: {
+        email
+      }
+    });
 
     if (userEmailExist) {
       throw new AppError("Email already exists!");
@@ -39,9 +50,11 @@ export const UserController = {
   async delete(req: Request, res: Response) {
     const { id } = req.params;
 
-    const users = await prismaClient.user.findMany();
-
-    const userExist = users.some(user => user.id === id);
+    const userExist = await prismaClient.user.findUnique({
+      where: {
+        id
+      }
+    });
 
     if (!userExist) {
       throw new AppError("The user does not exist");
@@ -54,5 +67,11 @@ export const UserController = {
     });
 
     return res.json(userToDelete);
+  },
+
+  async update(req: Request, res: Response) {
+    const { id } = req.params;
+    // const { email, name, password }: User = req.body;
+    return res.json({ id });
   }
 };
