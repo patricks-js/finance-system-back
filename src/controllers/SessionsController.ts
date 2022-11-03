@@ -1,6 +1,8 @@
 import { User } from "@prisma/client";
 import { AppError } from "@utils/AppError";
 import { compare } from "bcrypt";
+import { sign } from "jsonwebtoken";
+import { authConfig } from "src/config/auth";
 import { prismaClient } from "src/database/connection";
 
 import { Request, Response } from "express";
@@ -25,6 +27,10 @@ export const SessionsController = {
       throw new AppError("Email and/or password is incorrect!", 401);
     }
 
-    return res.json(user);
+    const { expiresIn, secret } = authConfig.jwt;
+
+    const token = sign({ id: user.id }, secret, { expiresIn });
+
+    return res.json({ user, token });
   }
 };

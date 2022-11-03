@@ -1,13 +1,15 @@
+import { ensureAuthenticated } from "src/middleware/ensureAuthenticated";
+
 import { Router } from "express";
 
 import { UserController } from "@controllers/UserController";
 
 export const userRoutes = Router();
 
-userRoutes.get("/profile/:id", UserController.findProfile);
-
 userRoutes.post("/register", UserController.create);
 
-userRoutes.delete("/delete/:id", UserController.delete);
+userRoutes.get("/profile", ensureAuthenticated, UserController.findProfile);
 
-userRoutes.put("/update/:id", UserController.update);
+userRoutes.delete("/delete", ensureAuthenticated, UserController.delete);
+
+userRoutes.put("/update", ensureAuthenticated, UserController.update);

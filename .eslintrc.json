@@ -25,6 +25,7 @@
     "quotes": ["error", "double"],
     "no-duplicate-imports": "error",
     "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "import-helpers/order-imports": [
       "warn",
       {

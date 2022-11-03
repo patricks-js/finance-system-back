@@ -1,16 +1,16 @@
 import { AppError } from "@utils/AppError";
 import { hash } from "bcrypt";
-import { User } from "src/@types/User";
 import { prismaClient } from "src/database/connection";
 
 import { Request, Response } from "express";
 
 export const UserController = {
   async findProfile(req: Request, res: Response) {
-    const { id } = req.params;
+    const user_id = req.user.id;
+
     const user = await prismaClient.user.findUnique({
       where: {
-        id
+        id: user_id
       }
     });
 
@@ -22,7 +22,7 @@ export const UserController = {
   },
 
   async create(req: Request, res: Response) {
-    const { name, email, password }: User = req.body;
+    const { name, email, password } = req.body;
 
     const userEmailExist = await prismaClient.user.findUnique({
       where: {

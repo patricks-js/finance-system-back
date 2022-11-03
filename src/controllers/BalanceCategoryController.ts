@@ -9,28 +9,37 @@ type BalanceData = {
 
 export const BalanceCategoryController = {
   async register(req: Request, res: Response) {
-    const { date, title, value, user_id, category }: BalanceData = req.body;
+    const user_id = req.user.id;
+
+    const { date, title, value, category }: BalanceData = req.body;
 
     const newBalance = await prismaClient.balance.create({
       data: {
         date,
         title,
         value,
+        category: {
+          connectOrCreate: {
+            where: {
+              id: user_id
+            },
+            create: {
+              expense: category.expense,
+              title: category.title,
+              type: category.type
+            }
+          }
+        },
         user: {
           connect: {
             id: user_id
-          }
-        },
-        category: {
-          create: {
-            type: category.type,
-            title: category.title,
-            expense: category.expense
           }
         }
       }
     });
 
-    return res.status(201).json(newBalance);
+    console.log(newBalance);
+
+    return res.status(201).json({ date, title, value, category });
   }
 };
