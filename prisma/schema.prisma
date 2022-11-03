@@ -8,38 +8,49 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  name       String
-  email      String    @unique
-  password   String
+  id String @id @default(uuid())
+
+  name     String
+  email    String @unique
+  password String
+
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
-  Balance    Balance[]
+  balance    Balance[]
 
   @@map("users")
 }
 
 model Balance {
-  id         String    @id @default(uuid())
-  date       DateTime
-  title      String
-  value      Int
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  user_id    String
-  user       User      @relation(fields: [user_id], references: [id])
-  category   Category?
+  id String @id @default(uuid())
+
+  date  String
+  title String
+  value Int
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id String   @unique
 
   @@map("balance")
 }
 
 model Category {
-  id         String  @id @default(uuid())
-  type       String
-  title      String
-  expense    Boolean
-  balance_id String  @unique
-  balance    Balance @relation(fields: [balance_id], references: [id])
+  id String @id @default(uuid())
+
+  type    String
+  title   String
+  expense Boolean
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  balance Balance?
 
   @@map("category")
 }

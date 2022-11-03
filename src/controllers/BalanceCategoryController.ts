@@ -1,18 +1,36 @@
+import { Balance, Category } from "@prisma/client";
 import { prismaClient } from "src/database/connection";
 
 import { Request, Response } from "express";
 
-export const BalanceCategoryController = {
-  async create(req: Request, res: Response) {
-    const { id_balance, id_category } = req.body;
+type BalanceData = {
+  category: Category;
+} & Balance;
 
-    const balanceCategory = await prismaClient.balanceCategory.create({
+export const BalanceCategoryController = {
+  async register(req: Request, res: Response) {
+    const { date, title, value, user_id, category }: BalanceData = req.body;
+
+    const newBalance = await prismaClient.balance.create({
       data: {
-        id_balance,
-        id_category
+        date,
+        title,
+        value,
+        user: {
+          connect: {
+            id: user_id
+          }
+        },
+        category: {
+          create: {
+            type: category.type,
+            title: category.title,
+            expense: category.expense
+          }
+        }
       }
     });
 
-    return res.status(201).json(balanceCategory);
+    return res.status(201).json(newBalance);
   }
 };

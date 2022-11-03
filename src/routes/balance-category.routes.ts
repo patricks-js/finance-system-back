@@ -4,4 +4,4 @@ import { BalanceCategoryController } from "@controllers/BalanceCategoryControlle
 
 export const balanceCategoryRoutes = Router();
 
-balanceCategoryRoutes.post("/create", BalanceCategoryController.create);
+balanceCategoryRoutes.post("/register", BalanceCategoryController.register);
