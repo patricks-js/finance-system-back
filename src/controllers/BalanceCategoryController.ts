@@ -1,4 +1,5 @@
 import { Balance, Category } from "@prisma/client";
+import { AppError } from "@utils/AppError";
 import { prismaClient } from "src/database/connection";
 
 import { Request, Response } from "express";
@@ -13,16 +14,18 @@ export const BalanceCategoryController = {
 
     const { date, title, value, category }: BalanceData = req.body;
 
-    const newBalance = await prismaClient.balance.create({
-      data: {
-        date,
-        title,
-        value,
-        category: {
-          connectOrCreate: {
-            where: {
+    try {
+      const newBalance = await prismaClient.balance.create({
+        data: {
+          user: {
+            connect: {
               id: user_id
-            },
+            }
+          },
+          date,
+          title,
+          value,
+          category: {
             create: {
               expense: category.expense,
               title: category.title,
@@ -30,16 +33,43 @@ export const BalanceCategoryController = {
             }
           }
         },
-        user: {
-          connect: {
-            id: user_id
-          }
+        include: {
+          category: true
         }
+      });
+      return res.status(201).json(newBalance);
+    } catch (err) {
+      throw new AppError("Error: " + err);
+    }
+  },
+
+  async delete(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const balanceToDelete = await prismaClient.balance.delete({
+      where: {
+        id
       }
     });
 
-    console.log(newBalance);
+    return res.json({
+      message: "Delete balance successfully",
+      item: balanceToDelete
+    });
+  },
 
-    return res.status(201).json({ date, title, value, category });
+  async show(req: Request, res: Response) {
+    const user_id = req.user.id;
+
+    const allBalances = await prismaClient.user.findFirst({
+      where: {
+        id: user_id
+      },
+      include: {
+        balance: true
+      }
+    });
+
+    return res.json(allBalances);
   }
 };

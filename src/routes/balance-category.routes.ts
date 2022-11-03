@@ -9,3 +9,7 @@ export const balanceCategoryRoutes = Router();
 balanceCategoryRoutes.use(ensureAuthenticated);
 
 balanceCategoryRoutes.post("/register", BalanceCategoryController.register);
+
+balanceCategoryRoutes.delete("/delete/:id", BalanceCategoryController.delete);
+
+balanceCategoryRoutes.get("/show", BalanceCategoryController.show);

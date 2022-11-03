@@ -26,7 +26,7 @@ model Balance {
 
   date  String
   title String
-  value Int
+  value Float
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
