@@ -7,6 +7,8 @@ import { Request, Response } from "express";
 export const UserController = {
   async findProfile(req: Request, res: Response) {
     const user_id = req.user.id;
+    const cookie = req.cookies;
+    console.log(cookie);
 
     const user = await prismaClient.user.findUnique({
       where: {
@@ -22,7 +24,7 @@ export const UserController = {
   },
 
   async create(req: Request, res: Response) {
-    const { name, email, password } = req.body;
+    const { name, email, password, confirmPassword } = req.body;
 
     const userEmailExist = await prismaClient.user.findUnique({
       where: {
@@ -32,6 +34,10 @@ export const UserController = {
 
     if (userEmailExist) {
       throw new AppError("Email already exists!");
+    }
+
+    if (password !== confirmPassword) {
+      throw new AppError("Passwords do not match!");
     }
 
     const passwordEncrypted = await hash(password, 8);
