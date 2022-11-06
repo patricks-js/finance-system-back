@@ -7,8 +7,6 @@ import { Request, Response } from "express";
 export const UserController = {
   async findProfile(req: Request, res: Response) {
     const user_id = req.user.id;
-    const cookie = req.cookies;
-    console.log(cookie);
 
     const user = await prismaClient.user.findUnique({
       where: {

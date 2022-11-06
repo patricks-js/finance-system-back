@@ -31,8 +31,6 @@ export const SessionsController = {
 
     const token = sign({ id: user.id }, secret, { expiresIn });
 
-    res.cookie("token", token, { httpOnly: true });
-
-    return res.json({ user, token });
+    return res.json({ token, user });
   }
 };

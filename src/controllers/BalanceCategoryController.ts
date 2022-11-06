@@ -58,15 +58,15 @@ export const BalanceCategoryController = {
     });
   },
 
-  async show(req: Request, res: Response) {
+  async showAll(req: Request, res: Response) {
     const user_id = req.user.id;
 
-    const allBalances = await prismaClient.user.findFirst({
+    const allBalances = await prismaClient.balance.findMany({
       where: {
-        id: user_id
+        user_id
       },
       include: {
-        balance: true
+        category: true
       }
     });
 
