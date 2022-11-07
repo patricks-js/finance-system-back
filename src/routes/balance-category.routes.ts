@@ -1,8 +1,8 @@
-import { ensureAuthenticated } from "src/middleware/ensureAuthenticated";
-
 import { Router } from "express";
 
 import { BalanceCategoryController } from "@controllers/BalanceCategoryController";
+
+import { ensureAuthenticated } from "../middleware/ensureAuthenticated";
 
 export const balanceCategoryRoutes = Router();
 

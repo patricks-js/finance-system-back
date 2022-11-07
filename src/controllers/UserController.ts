@@ -1,8 +1,9 @@
 import { AppError } from "@utils/AppError";
 import { hash } from "bcrypt";
-import { prismaClient } from "src/database/connection";
 
 import { Request, Response } from "express";
+
+import { prismaClient } from "../database/connection";
 
 export const UserController = {
   async findProfile(req: Request, res: Response) {

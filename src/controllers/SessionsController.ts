@@ -2,10 +2,11 @@ import { User } from "@prisma/client";
 import { AppError } from "@utils/AppError";
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
-import { authConfig } from "src/config/auth";
-import { prismaClient } from "src/database/connection";
 
 import { Request, Response } from "express";
+
+import { authConfig } from "../config/auth";
+import { prismaClient } from "../database/connection";
 
 export const SessionsController = {
   async create(req: Request, res: Response) {

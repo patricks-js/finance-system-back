@@ -1,8 +1,9 @@
 import { Balance, Category } from "@prisma/client";
 import { AppError } from "@utils/AppError";
-import { prismaClient } from "src/database/connection";
 
 import { Request, Response } from "express";
+
+import { prismaClient } from "../database/connection";
 
 type BalanceData = {
   category: Category;
