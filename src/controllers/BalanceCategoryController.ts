@@ -63,7 +63,7 @@ export const BalanceCategoryController = {
 
     const allBalances = await prismaClient.balance.findMany({
       where: {
-        user_id
+        user_id: user_id
       },
       include: {
         category: true
