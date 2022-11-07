@@ -19,5 +19,5 @@ app.use(routes);
 
 app.use(catchErrors);
 
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = process.env.PORT || process.env.SERVER_PORT;
 app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
