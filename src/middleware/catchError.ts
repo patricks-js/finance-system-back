@@ -1,6 +1,6 @@
-import { AppError } from "@utils/AppError";
-
 import { NextFunction, Request, Response } from "express";
+
+import { AppError } from "../utils/AppError";
 
 export function catchErrors(
   error: Error,

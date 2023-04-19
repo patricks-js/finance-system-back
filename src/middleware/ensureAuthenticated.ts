@@ -1,9 +1,9 @@
-import { AppError } from "@utils/AppError";
 import jwt from "jsonwebtoken";
 
 import { NextFunction, Request, Response } from "express";
 
 import { authConfig } from "../config/auth";
+import { AppError } from "../utils/AppError";
 
 type UserId = {
   id: string;
